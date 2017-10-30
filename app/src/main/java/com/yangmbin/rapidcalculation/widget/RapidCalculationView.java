@@ -45,6 +45,7 @@ public class RapidCalculationView extends RelativeLayout implements View.OnTouch
                     Log.e("yangmbin", "第2点坐标：" + motionEvent.getX(1) + "," + motionEvent.getY(1));
                     twoX = motionEvent.getX(1);
                     twoY = motionEvent.getY(1);
+                    twoTouchEvent();
                 }
                 break;
         }
