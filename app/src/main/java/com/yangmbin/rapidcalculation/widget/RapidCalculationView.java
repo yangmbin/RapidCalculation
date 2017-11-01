@@ -1,6 +1,7 @@
 package com.yangmbin.rapidcalculation.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,21 +18,26 @@ import com.yangmbin.rapidcalculation.bean.TestProblem;
 import com.yangmbin.rapidcalculation.utils.CalUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class RapidCalculationView extends RelativeLayout implements View.OnTouchListener, View.OnClickListener {
 
+    private Context mContext;
     private View mView, mTouchView;
     private TextView mBtn1, mBtn2, mBtn3, mBtn4, mBtn5, mBtn6, mBtn7, mBtn8, mBtn9, mBtn10, mBtn11, mBtn12;
     private List<TextView> mBtnList = new ArrayList<>();
     private List<Coordinate> mCoordinateList = new ArrayList<>();
     private List<TestProblem> mTestProblemList = new ArrayList<>();
     private List<Expression> mExpressionList = new ArrayList<>();
+    private String[] colorList = {"#99CCFF", "#99CCCC", "#66CCCC", "#CCCCFF","#FFCCCC", "#FFCC99",
+            "#996699", "#CCCC99","#CCCCCC", "#FF6666", "#0099CC", "#FFCC33"};
 
     public RapidCalculationView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
         mView = LayoutInflater.from(context).inflate(R.layout.view_rapid_calculation, null);
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mView.setLayoutParams(params);
@@ -75,8 +81,14 @@ public class RapidCalculationView extends RelativeLayout implements View.OnTouch
         mBtnList.add(mBtn11);
         mBtnList.add(mBtn12);
 
-        for (int i = 0; i < mBtnList.size(); i++)
+        // 设置按钮的背景色和监听
+        List colors = Arrays.asList(colorList);
+        Collections.shuffle(colors);
+        for (int i = 0; i < mBtnList.size(); i++) {
+            mBtnList.get(i).setBackgroundColor(Color.parseColor((String) colors.get(i)));
             mBtnList.get(i).setOnClickListener(this);
+        }
+
     }
 
     /**
@@ -108,6 +120,7 @@ public class RapidCalculationView extends RelativeLayout implements View.OnTouch
 
     /**
      * 获取点击的位置
+     *
      * @param x
      * @param y
      * @return
@@ -143,6 +156,7 @@ public class RapidCalculationView extends RelativeLayout implements View.OnTouch
 
     /**
      * 1点点击事件处理
+     *
      * @param view
      */
     @Override
@@ -200,6 +214,7 @@ public class RapidCalculationView extends RelativeLayout implements View.OnTouch
 
     /**
      * 生成测试题目
+     *
      * @param calType
      */
     public void generateTest(String calType) {
