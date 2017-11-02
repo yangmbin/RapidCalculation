@@ -34,6 +34,7 @@ public class RapidCalculationView extends RelativeLayout implements View.OnTouch
     private List<Expression> mExpressionList = new ArrayList<>();
     private String[] colorList = {"#99CCFF", "#99CCCC", "#66CCCC", "#CCCCFF","#FFCCCC", "#FFCC99",
             "#996699", "#CCCC99","#CCCCCC", "#FF6666", "#0099CC", "#FFCC33"};
+    private int mSingleClickPos = -1;
 
     public RapidCalculationView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -142,6 +143,30 @@ public class RapidCalculationView extends RelativeLayout implements View.OnTouch
         Log.e("yangmbin", "btn " + getClickPosition(x2, y2));
         int index1 = getClickPosition(x1, y1);
         int index2 = getClickPosition(x2, y2);
+        clickExpressCal(index1, index2);
+        mSingleClickPos = -1;
+    }
+
+    /**
+     * 单击事件处理
+     * @param prePosition
+     * @param curPosition
+     */
+    private void oneClickEvent(int prePosition, int curPosition) {
+        if (prePosition == -1 || prePosition == curPosition) { // 第一次点击或点击同一个按钮
+            mSingleClickPos = curPosition;
+            return;
+        }
+        clickExpressCal(prePosition, curPosition);
+        mSingleClickPos = -1;
+    }
+
+    /**
+     * 点击2个点后的表达式计算，用于判断是否正确或者正确后方块消除
+     * @param index1
+     * @param index2
+     */
+    private void clickExpressCal(int index1, int index2) {
         // 判断点击的2个点必须是一个表达式的头和尾，并且是可见的
         if (mExpressionList.get(index1).getType() != mExpressionList.get(index2).getType()
                 && mBtnList.get(index1).getVisibility() == VISIBLE
@@ -155,7 +180,7 @@ public class RapidCalculationView extends RelativeLayout implements View.OnTouch
     }
 
     /**
-     * 1点点击事件处理
+     * 1点点击事件监听
      *
      * @param view
      */
@@ -163,28 +188,40 @@ public class RapidCalculationView extends RelativeLayout implements View.OnTouch
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn1:
+                oneClickEvent(mSingleClickPos, 0);
                 break;
             case R.id.btn2:
+                oneClickEvent(mSingleClickPos, 1);
                 break;
             case R.id.btn3:
+                oneClickEvent(mSingleClickPos, 2);
                 break;
             case R.id.btn4:
+                oneClickEvent(mSingleClickPos, 3);
                 break;
             case R.id.btn5:
+                oneClickEvent(mSingleClickPos, 4);
                 break;
             case R.id.btn6:
+                oneClickEvent(mSingleClickPos, 5);
                 break;
             case R.id.btn7:
+                oneClickEvent(mSingleClickPos, 6);
                 break;
             case R.id.btn8:
+                oneClickEvent(mSingleClickPos, 7);
                 break;
             case R.id.btn9:
+                oneClickEvent(mSingleClickPos, 8);
                 break;
             case R.id.btn10:
+                oneClickEvent(mSingleClickPos, 9);
                 break;
             case R.id.btn11:
+                oneClickEvent(mSingleClickPos, 10);
                 break;
             case R.id.btn12:
+                oneClickEvent(mSingleClickPos, 11);
                 break;
         }
     }
@@ -201,7 +238,7 @@ public class RapidCalculationView extends RelativeLayout implements View.OnTouch
                 break;
         }
 
-        return true;
+        return false; // 不消耗事件，继续传递，防止覆盖不监听
     }
 
     @Override
