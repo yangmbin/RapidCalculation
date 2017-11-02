@@ -153,7 +153,8 @@ public class RapidCalculationView extends RelativeLayout implements View.OnTouch
      * @param curPosition
      */
     private void oneClickEvent(int prePosition, int curPosition) {
-        if (prePosition == -1 || prePosition == curPosition) { // 第一次点击或点击同一个按钮
+        // 第一次点击或点击同一个按钮或点击相同类型按钮
+        if (prePosition == -1 || prePosition == curPosition || mExpressionList.get(prePosition).getType() == mExpressionList.get(curPosition).getType()) {
             mSingleClickPos = curPosition;
             return;
         }
